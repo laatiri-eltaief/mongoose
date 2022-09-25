@@ -19,9 +19,9 @@ const User = require("../models/person");
         Users.Create (arrayOfPeople,(err,data)=>err? console.log(err) : done (null,data));
         
     };
-    router.post('/add/manyPerson', (req,res)=>{
+    router.post('/add/manyUser', (req,res)=>{
         CreateManyPeople (req.body,(err,data)=>{
-            err? console.log(err) : res.send('ManyPerson was created')
+            err? console.log(err) : res.send('ManyUser was created')
         } )
     })
 
@@ -51,19 +51,14 @@ router.get('/:id' , (req,res)=>{
 })
 
 //Perform Classic Updates by Running Find, Edit, then Save
-router.put('/:id',async (req,res)=>{
-    
-    try{
-        var foodToAdd = 'pizza';
-        const data=await person.findById(req.params.id)
-        data.favoriteFoods=[...data.favoriteFoods,foodToAdd]
-        const result= await  data.save()
-        res.status(400).json(result)
-        }
-        catch(err){
-            res.status(800).json({error:err})
-        }
+router.put('/:id',{...req,res} ,(req,res)=> {
+    User.findByIdAndUpdate( {_id:req.params.id}, (err,msg) => {
+        err? console.log(err) : res.json({msg:'hamburger was added'})
 })
+     
+    });
+       
+
 
 
 
